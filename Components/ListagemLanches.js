@@ -9,6 +9,7 @@ export default function ListagemLanches() {
   const [loaded] = useFonts({
     Road_Rage: require("../assets/fonts/RoadRage.ttf"),
     FingerPaint: require("../assets/fonts/FingerPaint-Regular.ttf"),
+    RisqueRegular: require("../assets/fonts/Risque-Regular.ttf"),
   });
 
   useEffect(() => {
@@ -69,7 +70,9 @@ export default function ListagemLanches() {
               <View style={styles.cardContent}>
                 <Text style={[styles.text, styles.titulo, isSelected && styles.selectedText]}>{lanche}</Text>
                 {renderIngredientes(ingredientes, isSelected)}
-                <Text style={[styles.text, isSelected && styles.selectedText]}>R$ {preco}</Text>
+                <View style={styles.flex}>
+                  <Text style={[styles.text, styles.preco,isSelected && styles.selectedText]}>R$ {preco},00</Text>
+                </View>
               </View>
             </View>
           </TouchableOpacity>
@@ -98,20 +101,27 @@ const styles = StyleSheet.create({
 
     elevation: 5,
   },
+  flex: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
   overlay: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'green',
+    backgroundColor: '#7CFC00',
     opacity: 0,
   },
   overlayVisible: {
     opacity: 1,
   },
   cardContent: {
-    marginLeft: 10,
+    marginLeft: 15,
+    width: "60%"
   },
   text: {
     color: "white",
@@ -125,6 +135,14 @@ const styles = StyleSheet.create({
     fontSize:42
   },
   selectedText: {
-    color: 'green', // Define a cor do texto como verde quando o card estiver selecionado
+    color: '#7CFC00',
+    textShadowColor: "#7CFC00",
   },
+  preco: {
+    textShadowColor: "red",
+    textShadowRadius: 4,
+    textShadowOffset: {width: 2, height: 2},
+    fontSize:25,
+    fontFamily: "RisqueRegular"
+  }
 });
