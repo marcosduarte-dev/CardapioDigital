@@ -13,7 +13,7 @@ export default function NavBar() {
 
   return (
       <View style={styles.fundo}>
-        <Text style={styles.text}>LOGO</Text>
+        <Text style={styles.text}>LOGO foi?</Text>
         <Text style={styles.titulo}>CARDAPIO</Text>
         <Text style={styles.text}>MENU</Text>
       </View>
