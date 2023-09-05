@@ -1,13 +1,10 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { useFonts } from "expo-font";
 import { useEffect, useState } from "react";
-import { useNavigation } from '@react-navigation/native';
 
 
-
-export default function ListagemLanches() {
+export default function CadastroLanches() {
   const [data, setData] = useState([]);
-  const navigation = useNavigation();
   const [selectedId, setSelectedId] = useState(null);
   const [loaded] = useFonts({
     Road_Rage: require("../assets/fonts/RoadRage.ttf"),
@@ -38,7 +35,6 @@ export default function ListagemLanches() {
   const handleCardPress = (id) => {
     setSelectedId(id);
     console.log(id);
-    navigation.navigate('CadastroLanches');
     setTimeout(() => {
       setSelectedId(null);
     }, 800);
@@ -59,27 +55,9 @@ export default function ListagemLanches() {
       {Object.keys(data).map((id) => {
         const { lanche, preco, ingredientes, imagem } = data[id];
         const isSelected = id === selectedId;
+        
         return (
-          <TouchableOpacity
-            key={id}
-            onPress={() => handleCardPress(id)}
-            activeOpacity={0.6}
-          >
-            <View style={[styles.view, isSelected && styles.selectedView]}>
-              <Image
-                source={{ uri: imagem }}
-                style={{ width: 120, height: 120 }}
-              />
-              <View style={[styles.overlay, isSelected && styles.overlayVisible]} />
-              <View style={styles.cardContent}>
-                <Text style={[styles.text, styles.titulo, isSelected && styles.selectedText]}>{lanche}</Text>
-                {renderIngredientes(ingredientes, isSelected)}
-                <View style={styles.flex}>
-                  <Text style={[styles.text, styles.preco,isSelected && styles.selectedText]}>R$ {preco},00</Text>
-                </View>
-              </View>
-            </View>
-          </TouchableOpacity>
+          <Text>Tela CadastroLanches!</Text>
         );
       })}
     </View>
