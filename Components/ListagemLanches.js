@@ -55,7 +55,7 @@ export default function ListagemLanches() {
   };
 
   return (
-    <View style={{ padding: 15 }}>
+    <View style={[{ padding: 15 }, styles.bg_black]}>
       {Object.keys(data).map((id) => {
         const { lanche, preco, ingredientes, imagem } = data[id];
         const isSelected = id === selectedId;
@@ -104,6 +104,10 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
 
     elevation: 5,
+  },
+  bg_black: {
+    backgroundColor: "#091014",
+    minHeight: "100%"
   },
   flex: {
     display: "flex",

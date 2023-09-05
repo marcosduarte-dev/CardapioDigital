@@ -3,10 +3,10 @@ import { useFonts } from "expo-font";
 import { useEffect, useState } from "react";
 
 
-export default function CadastroLanches() {
+export default function Login() {
 
   return (
-    <Text>Tela CadastroLanches!</Text>
+    <Text>Tela Login!</Text>
   );
 }
 

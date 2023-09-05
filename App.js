@@ -28,4 +28,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#091014",
     minHeight: "100%",
   },
+  view: {
+    backgroundColor: "#091014",
+  },
 });
