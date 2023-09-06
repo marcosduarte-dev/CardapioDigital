@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from "react-native";
 import { useFonts } from "expo-font";
 import { useEffect, useState } from "react";
 import { useNavigation } from '@react-navigation/native';
@@ -55,7 +55,7 @@ export default function ListagemLanches() {
   };
 
   return (
-    <View style={[{ padding: 15 }, styles.bg_black]}>
+    <ScrollView style={[{ padding: 15 }, styles.bg_black]}>
       {Object.keys(data).map((id) => {
         const { lanche, preco, ingredientes, imagem } = data[id];
         const isSelected = id === selectedId;
@@ -82,13 +82,13 @@ export default function ListagemLanches() {
           </TouchableOpacity>
         );
       })}
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   view: {
-    marginTop: 11,
+    marginBottom: 15,
     borderColor: "white",
     borderWidth: 2,
     borderRadius: 5,
