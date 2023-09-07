@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, Button, TextInput } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, Button, TextInput, Pressable } from "react-native";
 import { useFonts } from "expo-font";
 import { useEffect, useState } from "react";
 import { useForm } from 'react-hook-form';
@@ -58,7 +58,7 @@ export default function CadastroLanches() {
         style={[styles.input, !!error && styles.borderError]}
         {...inputProps}
       />
-      {!!error && <Text style={styles.errorMessage}>{error.message}</Text>}
+      {!!error && <Text style={styles.errorText}>{error.message}</Text>}
     </View>
   )
 
@@ -85,18 +85,23 @@ export default function CadastroLanches() {
 
   return (
     <View style={styles.mainContainer}>
-      <Button title="Selecione uma imagem" onPress={pickImage} />
+      <Pressable style={styles.button_imagem} onPress={pickImage}>
+        <Text style={styles.btn_text_imagem}>Selecione Uma Imagem</Text>
+      </Pressable>
+
       {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
       <TextField
         label={'Lanche'}
         error={ errors.lanche }
         placeholder={'Digite o nome do lanche'}
+        placeholderTextColor="white"
         onChangeText={text => setValue('lanche', text)}
       />
       <TextField
-        label={'Preco'}
+        label={'Preço'}
         error={ errors.preco }
         placeholder={'Digite o preço do lanche'}
+        placeholderTextColor="white"
         onChangeText={text => setValue('preco', text)}
         keyboardType="numeric"
       />
@@ -104,13 +109,72 @@ export default function CadastroLanches() {
         label={'Ingredientes'}
         error={ errors.ingrediente }
         placeholder={'Digite os ingredientes do lanche'}
+        placeholderTextColor="white"
         onChangeText={text => setValue('ingrediente', text)}
       />
-      <Button onPress={handleSubmit(onSubmit)} title="Cadastrar" />
+      <Pressable style={styles.button_cadastrar} onPress={handleSubmit(onSubmit)}>
+        <Text style={styles.btn_text_imagem}>Cadastrar</Text>
+      </Pressable>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  
+  mainContainer: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: "#091014",
+    padding: 20,
+  },
+  container: {
+    marginBottom: 10,
+  },
+  label: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    color: 'white'
+  },
+  input: {
+    height: 50,
+    width: 350,
+    borderColor: 'gray',
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    borderRadius: 8,
+    color: "white"
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 12,
+  },
+  button_imagem: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#55597d',
+    width: 350,
+    marginBottom: 15
+  },
+  button_cadastrar: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#006b3b',
+    width: 350,
+    marginTop: 15
+  },
+  btn_text_imagem: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'white',
+  },
 });
