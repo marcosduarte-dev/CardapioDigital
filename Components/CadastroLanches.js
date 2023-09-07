@@ -1,5 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, Button, TextInput, Pressable } from "react-native";
-import { useFonts } from "expo-font";
+import { StyleSheet, Text, View, Image, TextInput, Pressable, ScrollView } from "react-native";
 import { useEffect, useState } from "react";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -85,37 +84,42 @@ export default function CadastroLanches() {
 
   return (
     <View style={styles.mainContainer}>
-      <Pressable style={styles.button_imagem} onPress={pickImage}>
-        <Text style={styles.btn_text_imagem}>Selecione Uma Imagem</Text>
-      </Pressable>
+      <ScrollView>
+        <Pressable style={styles.button_imagem} onPress={pickImage}>
+          <Text style={styles.btn_text_imagem}>Selecione Uma Imagem</Text>
+        </Pressable>
 
-      {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-      <TextField
-        label={'Lanche'}
-        error={ errors.lanche }
-        placeholder={'Digite o nome do lanche'}
-        placeholderTextColor="white"
-        onChangeText={text => setValue('lanche', text)}
-      />
-      <TextField
-        label={'Preço'}
-        error={ errors.preco }
-        placeholder={'Digite o preço do lanche'}
-        placeholderTextColor="white"
-        onChangeText={text => setValue('preco', text)}
-        keyboardType="numeric"
-      />
-      <TextField
-        label={'Ingredientes'}
-        error={ errors.ingrediente }
-        placeholder={'Digite os ingredientes do lanche'}
-        placeholderTextColor="white"
-        onChangeText={text => setValue('ingrediente', text)}
-      />
-      <Pressable style={styles.button_cadastrar} onPress={handleSubmit(onSubmit)}>
-        <Text style={styles.btn_text_imagem}>Cadastrar</Text>
-      </Pressable>
+        <View style={{alignItems: 'center'}}>
+          {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+        </View>
+        <TextField
+          label={'Lanche'}
+          error={ errors.lanche }
+          placeholder={'Digite o nome do lanche'}
+          placeholderTextColor="white"
+          onChangeText={text => setValue('lanche', text)}
+        />
+        <TextField
+          label={'Preço'}
+          error={ errors.preco }
+          placeholder={'Digite o preço do lanche'}
+          placeholderTextColor="white"
+          onChangeText={text => setValue('preco', text)}
+          keyboardType="numeric"
+        />
+        <TextField
+          label={'Ingredientes'}
+          error={ errors.ingrediente }
+          placeholder={'Digite os ingredientes do lanche'}
+          placeholderTextColor="white"
+          onChangeText={text => setValue('ingrediente', text)}
+        />
+        <Pressable style={styles.button_cadastrar} onPress={handleSubmit(onSubmit)}>
+          <Text style={styles.btn_text_imagem}>Cadastrar</Text>
+        </Pressable>
+      </ScrollView>
     </View>
+    
   );
 }
 
