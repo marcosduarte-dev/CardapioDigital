@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from "react-native";
 import { useFonts } from "expo-font";
-import { useEffect, useState } from "react";
-import { useNavigation } from '@react-navigation/native';
+import { useCallback, useEffect, useState } from "react";
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 
 
@@ -19,12 +19,19 @@ export default function ListagemLanches() {
     fetchData();
   }, []);
 
+  useFocusEffect(
+    useCallback(() => {
+      fetchData();
+    }, [])
+  );
+
   const fetchData = async () => {
     try {
       const response = await fetch(
         "https://cardapiodigital-4f53e-default-rtdb.firebaseio.com/Lanches/.json"
       );
       const json = await response.json();
+      console.log("Buscou os dados!")
       setData(json);
     } catch (error) {
       console.error(error);
