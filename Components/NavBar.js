@@ -1,12 +1,10 @@
 import { StyleSheet, Text, View, Image } from "react-native";
-import { useFonts } from 'expo-font';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useFonts } from "expo-font";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
-export default function NavBar({navigation}) {
-
+export default function NavBar({ navigation }) {
   const [loaded] = useFonts({
-    Roboto: require('../assets/fonts/Roboto-Bold.ttf'),
+    Roboto: require("../assets/fonts/Roboto-Bold.ttf"),
   });
 
   if (!loaded) {
@@ -14,12 +12,20 @@ export default function NavBar({navigation}) {
   }
 
   return (
-      <View style={styles.fundo}>
-        <Image source={require('../assets/burger.png')} style={{ width: 50, height: 50 }}/>
-        <Text style={styles.titulo}>CARDAPIO</Text>
-        <Ionicons onPress={() => navigation.toggleDrawer()} name="menu" size={38} color="white" />
-      </View>
-    );
+    <View style={styles.fundo}>
+      <Image
+        source={require("../assets/burger.png")}
+        style={{ width: 50, height: 50 }}
+      />
+      <Text style={styles.titulo}>CARDAPIO</Text>
+      <Ionicons
+        onPress={() => navigation.toggleDrawer()}
+        name="menu"
+        size={38}
+        color="white"
+      />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -41,5 +47,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 36,
     color: "#FFD818",
-  }
+  },
 });
