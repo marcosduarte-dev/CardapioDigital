@@ -4,8 +4,9 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as ImagePicker from 'expo-image-picker';
 import * as yup from 'yup'
+import NavBar from "./NavBar";
 
-export default function CadastroLanches() {
+export default function CadastroLanches({navigation}) {
 
   const fieldsValidationSchema = yup.object().shape({
     lanche: yup
@@ -84,7 +85,9 @@ export default function CadastroLanches() {
 
   return (
     <View style={styles.mainContainer}>
-      <ScrollView>
+      <NavBar navigation={navigation} />
+      <View style={{alignItems: 'center', marginTop: 15}}>
+      <ScrollView style={{padding: 15}}>
         <Pressable style={styles.button_imagem} onPress={pickImage}>
           <Text style={styles.btn_text_imagem}>Selecione Uma Imagem</Text>
         </Pressable>
@@ -118,6 +121,7 @@ export default function CadastroLanches() {
           <Text style={styles.btn_text_imagem}>Cadastrar</Text>
         </Pressable>
       </ScrollView>
+      </View>
     </View>
     
   );
@@ -126,9 +130,7 @@ export default function CadastroLanches() {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    alignItems: 'center',
     backgroundColor: "#091014",
-    padding: 20,
   },
   container: {
     marginBottom: 10,

@@ -2,12 +2,12 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from "rea
 import { useFonts } from "expo-font";
 import { useCallback, useEffect, useState } from "react";
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import NavBar from "./NavBar";
 
 
 
-export default function ListagemLanches() {
+export default function ListagemLanches({navigation}) {
   const [data, setData] = useState([]);
-  const navigation = useNavigation();
   const [selectedId, setSelectedId] = useState(null);
   const [loaded] = useFonts({
     Road_Rage: require("../assets/fonts/RoadRage.ttf"),
@@ -62,7 +62,9 @@ export default function ListagemLanches() {
   };
 
   return (
-    <ScrollView style={[{ padding: 15 }, styles.bg_black]}>
+    <View style={styles.bg_black}>
+      <NavBar navigation={navigation} />
+      <ScrollView style={[{ padding: 15 }, styles.bg_black]}>
       {Object.keys(data).map((id) => {
         const { lanche, preco, ingredientes, imagem } = data[id];
         const isSelected = id === selectedId;
@@ -90,6 +92,8 @@ export default function ListagemLanches() {
         );
       })}
     </ScrollView>
+    </View>
+    
   );
 }
 

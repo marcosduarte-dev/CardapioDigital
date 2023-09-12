@@ -1,7 +1,9 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import { useFonts } from 'expo-font';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-export default function NavBar() {
+export default function NavBar({navigation}) {
 
   const [loaded] = useFonts({
     Roboto: require('../assets/fonts/Roboto-Bold.ttf'),
@@ -13,9 +15,9 @@ export default function NavBar() {
 
   return (
       <View style={styles.fundo}>
-        <Text style={styles.text}>LOGO foi?</Text>
+        <Image source={require('../assets/burger.png')} style={{ width: 50, height: 50 }}/>
         <Text style={styles.titulo}>CARDAPIO</Text>
-        <Text style={styles.text}>MENU</Text>
+        <Ionicons onPress={() => navigation.toggleDrawer()} name="menu" size={38} color="white" />
       </View>
     );
 }

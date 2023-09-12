@@ -1,27 +1,49 @@
+import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
 import NavBar from "./Components/NavBar";
 import ListagemLanches from "./Components/ListagemLanches";
 import CadastroLanches from "./Components/CadastroLanches";
-import { NavigationContainer } from "@react-navigation/native";
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+
+const Drawer = createDrawerNavigator();
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+
+
   return (
     <View style={styles.container}>
-      <NavBar></NavBar>
       <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="ListagemLanches" options={{ headerShown: false }} component={ListagemLanches} />
-          <Stack.Screen name="CadastroLanches" options={{ headerShown: false }} component={CadastroLanches} />
-        </Stack.Navigator>
+        <DrawerNavigator />
       </NavigationContainer>
       <StatusBar style="auto" />
     </View>
   );
 }
+
+function DrawerNavigator() {
+  return (
+    <Drawer.Navigator
+      screenOptions={{
+        drawerStyle: {
+          backgroundColor: "#FFFFFF",
+          color: "white",
+        },
+        headerShown: false,
+        headerStyle: { backgroundColor: "black" },
+      }}
+    >
+      <Drawer.Screen name="Cardapio" component={ListagemLanches} />
+      <Drawer.Screen name="Cadastro Lanches" component={CadastroLanches} />
+    </Drawer.Navigator>
+  );
+}
+
+
 
 const styles = StyleSheet.create({
   container: {
