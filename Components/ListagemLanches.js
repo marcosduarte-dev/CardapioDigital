@@ -19,6 +19,7 @@ export default function ListagemLanches({ navigation }) {
     FingerPaint: require("../assets/fonts/FingerPaint-Regular.ttf"),
     RisqueRegular: require("../assets/fonts/Risque-Regular.ttf"),
   });
+  const [carrinho, setCarrinho] = useState([]);
 
   useEffect(() => {
     fetchData();
@@ -47,7 +48,23 @@ export default function ListagemLanches({ navigation }) {
     return null;
   }
 
-  const handleCardPress = (id) => {
+  const handleCardPress = (id, lanche, preco) => {
+
+    const itemSelecionado = carrinho.find(item => item.id === id);
+
+    if (itemSelecionado) {
+      const novoCarrinho = carrinho.map(item => {
+        if (item.id === id) {
+          return { ...item, quantidade: item.quantidade + 1, preco: (item.quantidade + 1) * preco };
+        }
+        return item;
+      });
+      setCarrinho(novoCarrinho);
+    } else {
+      const novoItem = { id: id, lanche: lanche, quantidade: 1, preco: preco };
+      setCarrinho([...carrinho, novoItem]);
+    }
+
     setSelectedId(id);
     console.log(id);
     setTimeout(() => {
@@ -82,7 +99,7 @@ export default function ListagemLanches({ navigation }) {
           return (
             <TouchableOpacity
               key={id}
-              onPress={() => handleCardPress(id)}
+              onPress={() => handleCardPress(id, data[id].lanche, data[id].preco)}
               activeOpacity={0.6}
             >
               <View style={[styles.view, isSelected && styles.selectedView]}>
@@ -120,6 +137,17 @@ export default function ListagemLanches({ navigation }) {
             </TouchableOpacity>
           );
         })}
+        <Text style={{color: 'white'}}>
+        {carrinho.length > 0 ? (
+          carrinho.map((item) => (
+            <Text style={{color: 'white'}} key={item.id}>
+              Item ID: {item.id}, Lanche: {item.lanche} Quantidade: {item.quantidade} Preco: {item.preco}{'\n'}
+            </Text>
+          ))
+        ) : (
+          <Text>Nenhum item no carrinho</Text>
+        )}
+      </Text>
       </ScrollView>
     </View>
   );
