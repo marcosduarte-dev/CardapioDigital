@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import { useFonts } from "expo-font";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-export default function NavBar({ navigation }) {
+export default function NavBar(props,{ navigation }) {
   const [loaded] = useFonts({
     Roboto: require("../assets/fonts/Roboto-Bold.ttf"),
   });
@@ -16,8 +16,9 @@ export default function NavBar({ navigation }) {
       <Image
         source={require("../assets/burger.png")}
         style={{ width: 50, height: 50 }}
+        
       />
-      <Text style={styles.titulo}>CARDAPIO</Text>
+      <Text style={styles.titulo}>{props.nome}</Text>
       <Ionicons
         onPress={() => navigation.toggleDrawer()}
         name="menu"

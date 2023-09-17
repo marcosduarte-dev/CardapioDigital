@@ -5,11 +5,13 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  Button,
 } from "react-native";
 import { useFonts } from "expo-font";
 import { useCallback, useEffect, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import NavBar from "./NavBar";
+
 
 export default function ListagemLanches({ navigation }) {
   const [data, setData] = useState([]);
@@ -20,6 +22,10 @@ export default function ListagemLanches({ navigation }) {
     RisqueRegular: require("../assets/fonts/Risque-Regular.ttf"),
   });
   const [carrinho, setCarrinho] = useState([]);
+  const [carrinhoItens, setCarrinhoItens] = useState()
+
+  
+
 
   useEffect(() => {
     fetchData();
@@ -55,6 +61,7 @@ export default function ListagemLanches({ navigation }) {
     if (itemSelecionado) {
       const novoCarrinho = carrinho.map(item => {
         if (item.id === id) {
+          setCarrinhoItens('Hamburguer')
           return { ...item, quantidade: item.quantidade + 1, preco: (item.quantidade + 1) * preco };
         }
         return item;
@@ -89,9 +96,21 @@ export default function ListagemLanches({ navigation }) {
     ));
   };
 
+  const calcularPrecoTotal = () => {
+    let total = 0;
+    carrinho.forEach((item) => {
+      total += item.preco;
+    });
+    return total;
+  };
+
+
+
+  
+  
   return (
     <View style={styles.bg_black}>
-      <NavBar navigation={navigation} />
+      <NavBar navigation={navigation} nome="Cardapio"/>
       <ScrollView style={[{ padding: 15 }, styles.bg_black]}>
         {Object.keys(data).map((id) => {
           const { lanche, preco, ingredientes, imagem } = data[id];
@@ -137,17 +156,29 @@ export default function ListagemLanches({ navigation }) {
             </TouchableOpacity>
           );
         })}
-        <Text style={{color: 'white'}}>
+         <Text style={{ color: 'white' }}>
         {carrinho.length > 0 ? (
           carrinho.map((item) => (
-            <Text style={{color: 'white'}} key={item.id}>
-              Item ID: {item.id}, Lanche: {item.lanche} Quantidade: {item.quantidade} Preco: {item.preco}{'\n'}
+            <Text key={item.id}>
+             {item.quantidade} Lanche: {item.lanche}  Preço: {item.preco}{'\n'}
             </Text>
           ))
         ) : (
           <Text>Nenhum item no carrinho</Text>
         )}
       </Text>
+      <Text style={{ color: 'white' }}>
+        Preço Total: R$ {calcularPrecoTotal()}
+      </Text>
+      <View style={styles.button}>
+        <Button 
+          title="Carrinho"
+          onPress={() => {
+            navigation.navigate('Carrinho', { carrinhoItens: carrinho });
+          }}
+        />
+      </View>
+
       </ScrollView>
     </View>
   );
@@ -220,4 +251,11 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontFamily: "RisqueRegular",
   },
+  button: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: 'space-evenly',
+    alignSelf: 'center',
+    minWidth: '100%'
+  }
 });
