@@ -93,7 +93,7 @@ export default function CadastroLanches({ navigation }) {
 
   return (
     <View style={styles.mainContainer}>
-      <NavBar navigation={navigation} />
+      <NavBar navigation={navigation} nome="Cadastro"/>
       <View style={{ alignItems: "center", marginTop: 15 }}>
         <ScrollView style={{ padding: 15 }}>
           <Pressable style={styles.button_imagem} onPress={pickImage}>
