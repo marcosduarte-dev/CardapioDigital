@@ -1,9 +1,18 @@
-import React from 'react';
-import { View, Text, FlatList, StyleSheet, Button } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, FlatList, StyleSheet, Button, TextInput, ScrollView } from 'react-native';
 import NavBar from './NavBar';
 
-export default function Carrinho({route, navigation}) {
+export default function Carrinho({ route, navigation }) {
   const carrinhoItens = route.params.carrinhoItens;
+
+  const [cep, setCep] = useState('');
+  const [city, setCity] = useState('');
+  const [street, setStreet] = useState('');
+  const [houseNumber, setHouseNumber] = useState('');
+
+  const handleSaveAddress = () => {
+    // Lógica para salvar o endereço
+  };
 
   const calcularPrecoTotal = () => {
     let total = 0;
@@ -12,44 +21,61 @@ export default function Carrinho({route, navigation}) {
     });
     return total;
   };
+
   return (
     <View style={styles.bg_black}>
-      <NavBar nome="Carrinho"></NavBar>
-      <View>
-        {carrinhoItens && carrinhoItens.length > 0 ? (
-          <FlatList
-            data={carrinhoItens}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <View style={styles.view}>
-                <Text style={styles.text}>{item.quantidade}x</Text>
-                <Text style={styles.text}>{item.lanche}</Text>
-                <Text style={styles.text}>Preço: R$ {item.preco}</Text>
-              </View>   
-            )}
-          />
-        ) : (
-          <Text style={styles.text}>Nenhum item no carrinho</Text>
-        )}
+      <NavBar navigation={navigation} nome="Carrinho" />
+      <Text style={styles.titulo}>Endereço:</Text>
+      <View style={styles.container}>
+        <TextInput
+          style={styles.input}
+          value={cep}
+          onChangeText={setCep}
+          placeholder="CEP"
+        />
+        <TextInput
+          style={styles.input}
+          value={city}
+          onChangeText={setCity}
+          placeholder="Cidade"
+        />
+        <TextInput
+          style={styles.input}
+          value={street}
+          onChangeText={setStreet}
+          placeholder="Rua"
+        />
+        <TextInput
+          style={styles.input}
+          value={houseNumber}
+          onChangeText={setHouseNumber}
+          placeholder="n° casa"
+        />
+        <Button title="Salvar Endereço" onPress={handleSaveAddress} />
       </View>
+      {carrinhoItens && carrinhoItens.length > 0 ? (
+        <FlatList
+          data={carrinhoItens}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.view}>
+              <Text style={styles.text}>{item.quantidade}x</Text>
+              <Text style={styles.text}>{item.lanche}</Text>
+              <Text style={styles.text}>Preço: R$ {item.preco}</Text>
+            </View>
+          )}
+        />
+      ) : (
+        <Text style={styles.text}>Nenhum item no carrinho</Text>
+      )}
       <View style={styles.viewPagamento}>
-        <Text style={styles.text}>Total a Pagar: R${calcularPrecoTotal()}</Text>
+        <Text style={styles.text}>Total: R$ {calcularPrecoTotal()},00</Text>
       </View>
       <View style={styles.button}>
-        <Button title='continuar' 
-          onPress={()=>{
-            navigation.goBack()
-          }}
-        />
-        <Button title='finalizar'
-          onPress={()=>{
-            alert('Obrigado pela compra!!!!!!')
-            navigation.navigate('Cardapio')
-          }}
-        />
+        <Button title="continuar" onPress={() => { navigation.goBack() }} />
+        <Button title="finalizar" onPress={() => { alert('Obrigado pela compra!!!!!!'); navigation.navigate('Cardapio') }} />
       </View>
     </View>
-    
   );
 }
 
@@ -86,17 +112,17 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 30,
     alignSelf: 'center',
-    padding: 20
+    marginTop: 25
   },
-  viewPagamento:{
+  viewPagamento: {
     marginBottom: 15,
     padding: 15,
     display: "flex",
     flexDirection: "row",
-    justifyContent: 'space-around',
-    alignItems:'start',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
     backgroundColor: "#091014",
-    
+
   },
   button: {
     display: "flex",
@@ -104,6 +130,29 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     alignSelf: 'center',
     minWidth: '100%'
-  }
+  },
+  container: {
+    padding: 16,
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around'
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    color: 'white'
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 4,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    margin: 10,
+    fontSize: 16,
+    width: 120,
+    backgroundColor: 'grey',
+  },
 });
-

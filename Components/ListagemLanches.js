@@ -115,7 +115,7 @@ export default function ListagemLanches({ navigation }) {
         {Object.keys(data).map((id) => {
           const { lanche, preco, ingredientes, imagem } = data[id];
           const isSelected = id === selectedId;
-          return (
+          return (  
             <TouchableOpacity
               key={id}
               onPress={() => handleCardPress(id, data[id].lanche, data[id].preco)}

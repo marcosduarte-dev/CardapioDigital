@@ -8,59 +8,54 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const Stack = createNativeStackNavigator()
 
 const Drawer = createDrawerNavigator();
+const Stack = createNativeStackNavigator();
 
-export default function App() {
+function CardapioStack() {
   return (
-    <View style={styles.container}>
-      <NavigationContainer>
-        {/* <DrawerNavigator /> */}
-        <StackNavigator />
-      </NavigationContainer>
-      <StatusBar style="auto" />
-    </View>
+    <Stack.Navigator
+      initialRouteName="Cardapio"
+      screenOptions={{
+        headerShown: false,
+        headerStyle: { backgroundColor: "black" },
+      }}
+    >
+      <Stack.Screen name="Cardapio" component={ListagemLanches} />
+      <Stack.Screen name="Carrinho" component={Carrinho} />
+      <Stack.Screen name="CadastroLanches" component={CadastroLanches} />
+    </Stack.Navigator>
   );
 }
 
-// function DrawerNavigator() {
-//   return (
-//     <Drawer.Navigator
-//       screenOptions={{
-//         drawerStyle: {
-//           backgroundColor: "#FFFFFF",
-//           color: "white",
-//         },
-//         headerShown: false,
-//         headerStyle: { backgroundColor: "black" },
-//       }}
-//     >
-//       <Drawer.Screen name="Cardapio" component={ListagemLanches} />
-//       <Drawer.Screen name="Carrinho" component={Carrinho} />
-//       <Drawer.Screen name="Cadastro Lanches" component={CadastroLanches} />
-//     </Drawer.Navigator>
-//   );
-// }
-
-function StackNavigator(){
-  return(
-    <Stack.Navigator
-    initialRouteName="Cardapio"
-    screenOptions={{
-      drawerStyle: {
-        backgroundColor: "#FFFFFF",
-        color: "white",
-      },
-      headerShown: false,
-      headerStyle: { backgroundColor: "black" },
-    }}
-    >
-      <Stack.Screen name="Cardapio" component={ListagemLanches}/>
-      <Stack.Screen name="Carrinho" component={Carrinho}/>
-      <Stack.Screen name="Cadastro Lanches" component={CadastroLanches}/>
-    </Stack.Navigator>
-  )
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Drawer.Navigator
+        initialRouteName="CardapioStack"
+        screenOptions={{
+          drawerStyle: {
+            backgroundColor: "#FFFFFF",
+            color: "white",
+          },
+          headerShown: false,
+          headerStyle: { backgroundColor: "black" },
+          drawerPosition: 'right',
+        }}
+      >
+        <Drawer.Screen
+          name="CardapioStack"
+          component={CardapioStack}
+          options={{ title: "Cardápio" }}
+        />
+        <Drawer.Screen 
+          name="Cadastro Lanche" 
+          component={CadastroLanches}
+          options={{title: 'Cadastro Lanches'}}
+        /> 
+      </Drawer.Navigator>
+    </NavigationContainer>
+  );
 }
 
 const styles = StyleSheet.create({
