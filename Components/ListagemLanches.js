@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Button,
+  Pressable,
 } from "react-native";
 import { useFonts } from "expo-font";
 import { useCallback, useEffect, useState } from "react";
@@ -96,14 +97,17 @@ export default function ListagemLanches({ navigation }) {
     ));
   };
 
-  const calcularPrecoTotal = () => {
+  const budgetCalculator = () => {
     let total = 0;
     carrinho.forEach((item) => {
-      total += item.preco;
+      total += Number(item.preco);
     });
     return total;
   };
 
+  const cleanQueueHandler = () => {
+    setCarrinho([]);
+  }
 
 
   
@@ -168,15 +172,25 @@ export default function ListagemLanches({ navigation }) {
         )}
       </Text>
       <Text style={{ color: 'white' }}>
-        Preço Total: R$ {calcularPrecoTotal()}
+        Preço Total: R$ {budgetCalculator()}
       </Text>
-      <View style={styles.button}>
-        <Button 
-          title="Carrinho"
+      <View style={styles.buttonView}>
+        <Pressable
+          style={styles.button}
           onPress={() => {
+            cleanQueueHandler()
+          }}
+        >
+            <Text style={styles.btn_text_imagem}>Limpar Lista</Text>
+        </Pressable>
+        <Pressable
+          style={styles.button}
+          onPress={ () => {
             navigation.navigate('Carrinho', { carrinhoItens: carrinho });
           }}
-        />
+        >
+            <Text style={styles.btn_text_imagem}>Carrinho</Text>
+        </Pressable>
       </View>
 
       </ScrollView>
@@ -206,6 +220,8 @@ const styles = StyleSheet.create({
   bg_black: {
     backgroundColor: "#091014",
     minHeight: "100%",
+    display: 'flex',
+    alignItens: 'flex-end'
   },
   flex: {
     display: "flex",
@@ -251,11 +267,28 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontFamily: "RisqueRegular",
   },
-  button: {
+  buttonView: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: 'space-evenly',
-    alignSelf: 'center',
-    minWidth: '100%'
-  }
+    justifyContent: 'space-around',
+    alignItems: 'flex-end',
+    minWidth: '100%',
+  },
+  button: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: "#FFD818",
+    marginTop: 15,
+  },
+  btn_text_imagem: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: "bold",
+    letterSpacing: 0.25,
+    color: "black",
+  },
 });

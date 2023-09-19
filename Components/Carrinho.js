@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet, Button, TextInput, ScrollView } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Button, TextInput, ScrollView, Pressable } from 'react-native';
 import NavBar from './NavBar';
 
 export default function Carrinho({ route, navigation }) {
@@ -11,10 +11,10 @@ export default function Carrinho({ route, navigation }) {
   const [houseNumber, setHouseNumber] = useState('');
 
   const handleSaveAddress = () => {
-    // Lógica para salvar o endereço
+    console.log('CEP: '+cep+'; CIDADE: '+city+'; RUA: '+street+'; houseNumber: '+houseNumber)
   };
 
-  const calcularPrecoTotal = () => {
+  const budgetCalculator = () => {
     let total = 0;
     carrinhoItens.forEach((item) => {
       total += item.preco;
@@ -51,7 +51,12 @@ export default function Carrinho({ route, navigation }) {
           onChangeText={setHouseNumber}
           placeholder="n° casa"
         />
-        <Button title="Salvar Endereço" onPress={handleSaveAddress} />
+        <Pressable
+          style={[styles.button, {backgroundColor: '#FFD818'}]}
+          onPress={handleSaveAddress}
+        >
+            <Text style={[styles.btn_text_imagem, {color: 'black'}]}>Salva Endereço</Text>
+        </Pressable>
       </View>
       {carrinhoItens && carrinhoItens.length > 0 ? (
         <FlatList
@@ -69,12 +74,22 @@ export default function Carrinho({ route, navigation }) {
         <Text style={styles.text}>Nenhum item no carrinho</Text>
       )}
       <View style={styles.viewPagamento}>
-        <Text style={styles.text}>Total: R$ {calcularPrecoTotal()},00</Text>
+        <Text style={styles.text}>Total: R$ {budgetCalculator()},00</Text>
       </View>
-      <View style={styles.button}>
-        <Button title="continuar" onPress={() => { navigation.goBack() }} />
-        <Button title="finalizar" onPress={() => { alert('Obrigado pela compra!!!!!!'); navigation.navigate('Cardapio') }} />
-      </View>
+      <View style={styles.buttonView}>
+        <Pressable
+          style={[styles.button, {backgroundColor: 'blue'}]}
+          onPress={() => { navigation.goBack() }}        
+        >
+          <Text style={styles.btn_text_imagem}>continuar Comprando</Text>
+        </Pressable>
+        <Pressable
+          style={styles.button}
+          onPress={() => { alert('Obrigado pela compra!!!!!!'); navigation.navigate('Cardapio') }}
+         >
+            <Text style={styles.btn_text_imagem}>Finalizar</Text>
+        </Pressable>
+     </View>
     </View>
   );
 }
@@ -125,11 +140,14 @@ const styles = StyleSheet.create({
 
   },
   button: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: 'space-evenly',
-    alignSelf: 'center',
-    minWidth: '100%'
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: "#006b3b",
+    marginTop: 15,
   },
   container: {
     padding: 16,
@@ -155,4 +173,18 @@ const styles = StyleSheet.create({
     width: 120,
     backgroundColor: 'grey',
   },
+  btn_text_imagem: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: "bold",
+    letterSpacing: 0.25,
+    color: "white",
+  },
+  buttonView: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: 'space-around',
+    alignItems: 'flex-end',
+    minWidth: '100%',
+  }
 });
