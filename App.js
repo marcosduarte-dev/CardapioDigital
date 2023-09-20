@@ -7,10 +7,12 @@ import Carrinho from "./Components/Carrinho";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+import './config/firebase'
+import { useAuthentication } from "./utils/hooks/useAuthentication";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
+// const user = "logado";
 
 function CardapioStack() {
   return (
@@ -29,6 +31,8 @@ function CardapioStack() {
 }
 
 export default function App() {
+  const user = useAuthentication();
+
   return (
     <NavigationContainer>
       <Drawer.Navigator
@@ -48,11 +52,18 @@ export default function App() {
           component={CardapioStack}
           options={{ title: "Cardápio" }}
         />
-        <Drawer.Screen 
+        
+        {user ? 
+          
+          <Drawer.Screen 
           name="Cadastro Lanche" 
           component={CadastroLanches}
           options={{title: 'Cadastro Lanches'}}
-        /> 
+        /> : null
+        
+        }
+        
+        
       </Drawer.Navigator>
     </NavigationContainer>
   );
