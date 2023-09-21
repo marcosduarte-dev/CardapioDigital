@@ -17,7 +17,7 @@ export default function Carrinho({ route, navigation }) {
   const budgetCalculator = () => {
     let total = 0;
     carrinhoItens.forEach((item) => {
-      total += item.preco;
+      total += Number(item.preco);
     });
     return total;
   };

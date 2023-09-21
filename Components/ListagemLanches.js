@@ -13,7 +13,6 @@ import { useCallback, useEffect, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import NavBar from "./NavBar";
 
-
 export default function ListagemLanches({ navigation }) {
   const [data, setData] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
@@ -24,9 +23,6 @@ export default function ListagemLanches({ navigation }) {
   });
   const [carrinho, setCarrinho] = useState([]);
   const [carrinhoItens, setCarrinhoItens] = useState()
-
-  
-
 
   useEffect(() => {
     fetchData();
@@ -108,9 +104,6 @@ export default function ListagemLanches({ navigation }) {
   const cleanQueueHandler = () => {
     setCarrinho([]);
   }
-
-
-  
   
   return (
     <View style={styles.bg_black}>
@@ -191,6 +184,15 @@ export default function ListagemLanches({ navigation }) {
         >
             <Text style={styles.btn_text_imagem}>Carrinho</Text>
         </Pressable>
+        {/* <Pressable
+          style={styles.button}
+          onPress={ () => {
+            signOut(auth)
+            console.log(user)
+          }}
+        >
+            <Text style={styles.btn_text_imagem}>SignOut</Text>
+        </Pressable> */}
       </View>
 
       </ScrollView>

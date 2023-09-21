@@ -6,9 +6,11 @@ import CadastroLanches from "./Components/CadastroLanches";
 import Carrinho from "./Components/Carrinho";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import './config/firebase'
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import "./config/firebase";
 import { useAuthentication } from "./utils/hooks/useAuthentication";
+import Login from "./Components/Login";
+import { useState } from "react";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -26,12 +28,19 @@ function CardapioStack() {
       <Stack.Screen name="Cardapio" component={ListagemLanches} />
       <Stack.Screen name="Carrinho" component={Carrinho} />
       <Stack.Screen name="CadastroLanches" component={CadastroLanches} />
+      <Stack.Screen name="Login" component={Login} />
     </Stack.Navigator>
   );
 }
 
 export default function App() {
-  const user = useAuthentication();
+  var user = useAuthentication();
+
+  const [isUserLoggedIn, setUserLoggedIn] = useState(false);
+
+  const updateUserLoggedIn = (loggedIn) => {
+    setUserLoggedIn(loggedIn);
+  };
 
   return (
     <NavigationContainer>
@@ -44,7 +53,7 @@ export default function App() {
           },
           headerShown: false,
           headerStyle: { backgroundColor: "black" },
-          drawerPosition: 'right',
+          drawerPosition: "right",
         }}
       >
         <Drawer.Screen
@@ -52,17 +61,18 @@ export default function App() {
           component={CardapioStack}
           options={{ title: "Cardápio" }}
         />
-        
-        {user ? 
-          
-          <Drawer.Screen 
-          name="Cadastro Lanche" 
-          component={CadastroLanches}
-          options={{title: 'Cadastro Lanches'}}
-        /> : null
-        
-        }
-        
+
+        {isUserLoggedIn ? (
+          <Drawer.Screen
+            name="Cadastro Lanche"
+            component={CadastroLanches}
+            options={{ title: "Cadastro Lanches" }}
+          />
+        ) : null}
+
+        <Drawer.Screen name="Login" options={{ title: "Login" }}>
+          {(props) => <Login {...props} updateUserLoggedIn={updateUserLoggedIn} />}
+        </Drawer.Screen>
         
       </Drawer.Navigator>
     </NavigationContainer>
