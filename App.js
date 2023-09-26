@@ -32,7 +32,7 @@ function CardapioStack() {
   );
 }
 
-function LogoutScreen({ updateUserLoggedIn, navigation }) {
+function Logout({ updateUserLoggedIn, navigation }) {
   const auth = getAuth();
 
   const logout = () => {
@@ -88,7 +88,7 @@ export default function App() {
         {isUserLoggedIn ? (
           <Drawer.Screen name="Logout">
             {(props) => (
-              <LogoutScreen
+              <Logout
                 {...props}
                 updateUserLoggedIn={updateUserLoggedIn}
               />
