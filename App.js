@@ -1,6 +1,6 @@
 import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Pressable, Text } from "react-native";
 import ListagemLanches from "./Components/ListagemLanches";
 import CadastroLanches from "./Components/CadastroLanches";
 import Carrinho from "./Components/Carrinho";
@@ -70,10 +70,13 @@ export default function App() {
           />
         ) : null}
 
-        <Drawer.Screen name="Login" options={{ title: "Login" }}>
-          {(props) => <Login {...props} updateUserLoggedIn={updateUserLoggedIn} />}
-        </Drawer.Screen>
-        
+        {isUserLoggedIn ? null : (
+          <Drawer.Screen name="Login" options={{ title: "Login" }}>
+            {(props) => (
+              <Login {...props} updateUserLoggedIn={updateUserLoggedIn} />
+            )}
+          </Drawer.Screen>
+        )}
       </Drawer.Navigator>
     </NavigationContainer>
   );
