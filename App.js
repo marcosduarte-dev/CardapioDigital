@@ -1,6 +1,5 @@
 import "react-native-gesture-handler";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, Pressable, Text } from "react-native";
+import { StyleSheet } from "react-native";
 import ListagemLanches from "./Components/ListagemLanches";
 import CadastroLanches from "./Components/CadastroLanches";
 import Carrinho from "./Components/Carrinho";
@@ -10,11 +9,11 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import "./config/firebase";
 import { useAuthentication } from "./utils/hooks/useAuthentication";
 import Login from "./Components/Login";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { signOut, getAuth } from "firebase/auth";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
-// const user = "logado";
 
 function CardapioStack() {
   return (
@@ -31,6 +30,22 @@ function CardapioStack() {
       <Stack.Screen name="Login" component={Login} />
     </Stack.Navigator>
   );
+}
+
+function LogoutScreen({ updateUserLoggedIn, navigation }) {
+  const auth = getAuth();
+
+  const logout = () => {
+    signOut(auth);
+    updateUserLoggedIn(false);
+    navigation.goBack();
+  };
+
+  useEffect(() => {
+    logout();
+  }, []);
+
+  return null;
 }
 
 export default function App() {
@@ -70,7 +85,16 @@ export default function App() {
           />
         ) : null}
 
-        {isUserLoggedIn ? null : (
+        {isUserLoggedIn ? (
+          <Drawer.Screen name="Logout">
+            {(props) => (
+              <LogoutScreen
+                {...props}
+                updateUserLoggedIn={updateUserLoggedIn}
+              />
+            )}
+          </Drawer.Screen>
+        ) : (
           <Drawer.Screen name="Login" options={{ title: "Login" }}>
             {(props) => (
               <Login {...props} updateUserLoggedIn={updateUserLoggedIn} />

@@ -25,10 +25,12 @@ export default function Login({ updateUserLoggedIn, navigation  }) {
     try {
       await signInWithEmailAndPassword(auth, value.email, value.password);
 
-      console.log("LOGADO COM SUCESSO!");
       updateUserLoggedIn(true);
-      console.log("VAI PRO GOBACK!");
-      navigation.goBack();
+      if (navigation.canGoBack()) {
+        navigation.goBack();
+      } else {
+        navigation.navigate('Cardapio');
+      }
       
       
     } catch (error) {
