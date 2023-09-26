@@ -81,7 +81,7 @@ export default function Carrinho({ route, navigation }) {
           style={[styles.button, {backgroundColor: 'blue'}]}
           onPress={() => { navigation.goBack() }}        
         >
-          <Text style={styles.btn_text_imagem}>continuar Comprando</Text>
+          <Text style={styles.btn_text_imagem}>Continuar Comprando</Text>
         </Pressable>
         <Pressable
           style={styles.button}
