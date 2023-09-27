@@ -13,6 +13,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as ImagePicker from "expo-image-picker";
 import * as yup from "yup";
 import NavBar from "./NavBar";
+import { collection, getFirestore, addDoc } from "firebase/firestore";
 
 export default function CadastroLanches({ navigation }) {
   const fieldsValidationSchema = yup.object().shape({
@@ -29,33 +30,14 @@ export default function CadastroLanches({ navigation }) {
     formState: { errors },
   } = useForm({ resolver: yupResolver(fieldsValidationSchema) });
   const [image, setImage] = useState(null);
+  const db = getFirestore();
 
-  const onSubmit = (data) => {
-    const postData = {
-      lanche: data.lanche,
-      preco: data.preco,
-      ingredientes: data.ingrediente,
-      imagem: `data:image/jpeg;base64,${data.imagem}`,
-    };
-
-    fetch(
-      "https://cardapiodigital-4f53e-default-rtdb.firebaseio.com/Lanches/.json",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      }
-    )
-      .then((response) => response.json())
-      .then((responseData) => {
-        console.log("Lanche Cadastrado com Sucesso!:", responseData);
-        reset();
-        setImage(null);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
+  const onSubmit = async (data) => {
+      const docRef = await addDoc(collection(db, "Lanche"), {
+        lanche: data.lanche,
+        preco: data.preco,
+        ingredientes: data.ingrediente,
+        imagem: `data:image/jpeg;base64,${data.imagem}`,
       });
   };
 

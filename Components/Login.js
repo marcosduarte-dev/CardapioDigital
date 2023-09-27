@@ -4,6 +4,7 @@ import { Input, Button } from "react-native-elements";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import NavBar from "./NavBar";
+import { getFirestore } from "firebase/firestore";
 
 const auth = getAuth();
 
