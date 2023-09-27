@@ -54,15 +54,18 @@ export default function Login({ updateUserLoggedIn, navigation }) {
         <View style={styles.controls}>
           <Input
             placeholder="Email"
+            style={{color: "white"}}
             containerStyle={styles.control}
             value={value.email}
             onChangeText={(text) => setValue({ ...value, email: text })}
-            leftIcon={<Icon style={{color: 'white'}} name="envelope" size={16} />}
+            leftIcon={<Icon style={{color: 'white'}} name="envelope" size={16}
+            />}
           />
 
           <Input
             placeholder="Password"
             containerStyle={styles.control}
+            style={{color: "white"}}
             value={value.password}
             onChangeText={(text) => setValue({ ...value, password: text })}
             secureTextEntry={true}
