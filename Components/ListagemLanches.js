@@ -12,7 +12,7 @@ import { useFonts } from "expo-font";
 import { useCallback, useEffect, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import NavBar from "./NavBar";
-
+import { collection, getDocs, getFirestore } from "firebase/firestore";
 
 export default function ListagemLanches({ navigation }) {
   const [data, setData] = useState([]);
@@ -23,10 +23,8 @@ export default function ListagemLanches({ navigation }) {
     RisqueRegular: require("../assets/fonts/Risque-Regular.ttf"),
   });
   const [carrinho, setCarrinho] = useState([]);
-  const [carrinhoItens, setCarrinhoItens] = useState()
-
-  
-
+  const [carrinhoItens, setCarrinhoItens] = useState();
+  const db = getFirestore();
 
   useEffect(() => {
     fetchData();
@@ -39,16 +37,15 @@ export default function ListagemLanches({ navigation }) {
   );
 
   const fetchData = async () => {
-    try {
-      const response = await fetch(
-        "https://cardapiodigital-4f53e-default-rtdb.firebaseio.com/Lanches/.json"
-      );
-      const json = await response.json();
-      console.log("Buscou os dados!");
-      setData(json);
-    } catch (error) {
-      console.error(error);
-    }
+    const querySnapshot = await getDocs(collection(db, "Lanche"));
+    const jsonData = {};
+
+    querySnapshot.forEach((doc) => {
+      const docData = doc.data();
+      const docId = doc.id;
+      jsonData[docId] = docData;
+    });
+    setData(jsonData);
   };
 
   if (!loaded) {
@@ -56,14 +53,17 @@ export default function ListagemLanches({ navigation }) {
   }
 
   const handleCardPress = (id, lanche, preco) => {
-
-    const itemSelecionado = carrinho.find(item => item.id === id);
+    const itemSelecionado = carrinho.find((item) => item.id === id);
 
     if (itemSelecionado) {
-      const novoCarrinho = carrinho.map(item => {
+      const novoCarrinho = carrinho.map((item) => {
         if (item.id === id) {
-          setCarrinhoItens('Hamburguer')
-          return { ...item, quantidade: item.quantidade + 1, preco: (item.quantidade + 1) * preco };
+          setCarrinhoItens("Hamburguer");
+          return {
+            ...item,
+            quantidade: item.quantidade + 1,
+            preco: (item.quantidade + 1) * preco,
+          };
         }
         return item;
       });
@@ -107,22 +107,21 @@ export default function ListagemLanches({ navigation }) {
 
   const cleanQueueHandler = () => {
     setCarrinho([]);
-  }
+  };
 
-
-  
-  
   return (
     <View style={styles.bg_black}>
-      <NavBar navigation={navigation} nome="Cardapio"/>
+      <NavBar navigation={navigation} nome="Cardapio" />
       <ScrollView style={[{ padding: 15 }, styles.bg_black]}>
         {Object.keys(data).map((id) => {
           const { lanche, preco, ingredientes, imagem } = data[id];
           const isSelected = id === selectedId;
-          return (  
+          return (
             <TouchableOpacity
               key={id}
-              onPress={() => handleCardPress(id, data[id].lanche, data[id].preco)}
+              onPress={() =>
+                handleCardPress(id, data[id].lanche, data[id].preco)
+              }
               activeOpacity={0.6}
             >
               <View style={[styles.view, isSelected && styles.selectedView]}>
@@ -160,39 +159,48 @@ export default function ListagemLanches({ navigation }) {
             </TouchableOpacity>
           );
         })}
-         <Text style={{ color: 'white' }}>
-        {carrinho.length > 0 ? (
-          carrinho.map((item) => (
-            <Text key={item.id}>
-             {item.quantidade} Lanche: {item.lanche}  Preço: {item.preco}{'\n'}
-            </Text>
-          ))
-        ) : (
-          <Text>Nenhum item no carrinho</Text>
-        )}
-      </Text>
-      <Text style={{ color: 'white' }}>
-        Preço Total: R$ {budgetCalculator()}
-      </Text>
-      <View style={styles.buttonView}>
-        <Pressable
-          style={styles.button}
-          onPress={() => {
-            cleanQueueHandler()
-          }}
-        >
+        <Text style={{ color: "white" }}>
+          {carrinho.length > 0 ? (
+            carrinho.map((item) => (
+              <Text key={item.id}>
+                {item.quantidade} Lanche: {item.lanche} Preço: {item.preco}
+                {"\n"}
+              </Text>
+            ))
+          ) : (
+            <Text>Nenhum item no carrinho</Text>
+          )}
+        </Text>
+        <Text style={{ color: "white" }}>
+          Preço Total: R$ {budgetCalculator()}
+        </Text>
+        <View style={styles.buttonView}>
+          <Pressable
+            style={styles.button}
+            onPress={() => {
+              cleanQueueHandler();
+            }}
+          >
             <Text style={styles.btn_text_imagem}>Limpar Lista</Text>
-        </Pressable>
-        <Pressable
+          </Pressable>
+          <Pressable
+            style={styles.button}
+            onPress={() => {
+              navigation.navigate("Carrinho", { carrinhoItens: carrinho });
+            }}
+          >
+            <Text style={styles.btn_text_imagem}>Carrinho</Text>
+          </Pressable>
+          {/* <Pressable
           style={styles.button}
           onPress={ () => {
-            navigation.navigate('Carrinho', { carrinhoItens: carrinho });
+            signOut(auth)
+            console.log(user)
           }}
         >
-            <Text style={styles.btn_text_imagem}>Carrinho</Text>
-        </Pressable>
-      </View>
-
+            <Text style={styles.btn_text_imagem}>SignOut</Text>
+        </Pressable> */}
+        </View>
       </ScrollView>
     </View>
   );
@@ -220,8 +228,8 @@ const styles = StyleSheet.create({
   bg_black: {
     backgroundColor: "#091014",
     minHeight: "100%",
-    display: 'flex',
-    alignItens: 'flex-end'
+    display: "flex",
+    alignItens: "flex-end",
   },
   flex: {
     display: "flex",
@@ -270,9 +278,9 @@ const styles = StyleSheet.create({
   buttonView: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: 'space-around',
-    alignItems: 'flex-end',
-    minWidth: '100%',
+    justifyContent: "space-around",
+    alignItems: "flex-end",
+    minWidth: "100%",
   },
   button: {
     alignItems: "center",
