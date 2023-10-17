@@ -110,9 +110,9 @@ export default function ListagemLanches({ navigation }) {
   };
 
   return (
-    <View style={styles.bg_black}>
+    <ScrollView style={styles.bg_black}>
       <NavBar navigation={navigation} nome="Cardapio" />
-      <ScrollView style={[{ padding: 15 }, styles.bg_black]}>
+      <View style={[{ padding: 15 }, styles.bg_black]}>
         {Object.keys(data).map((id) => {
           const { lanche, preco, ingredientes, imagem } = data[id];
           const isSelected = id === selectedId;
@@ -201,8 +201,8 @@ export default function ListagemLanches({ navigation }) {
             <Text style={styles.btn_text_imagem}>SignOut</Text>
         </Pressable> */}
         </View>
-      </ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   );
 }
 
@@ -281,6 +281,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "flex-end",
     minWidth: "100%",
+    marginBottom: 50
   },
   button: {
     alignItems: "center",
