@@ -33,12 +33,14 @@ export default function CadastroLanches({ navigation }) {
   const db = getFirestore();
 
   const onSubmit = async (data) => {
-      const docRef = await addDoc(collection(db, "Lanche"), {
-        lanche: data.lanche,
-        preco: data.preco,
-        ingredientes: data.ingrediente,
-        imagem: `data:image/jpeg;base64,${data.imagem}`,
-      });
+    const docRef = await addDoc(collection(db, "Lanche"), {
+      lanche: data.lanche,
+      preco: data.preco,
+      ingredientes: data.ingrediente,
+      imagem: `data:image/jpeg;base64,${data.imagem}`,
+    });
+
+    setImage("");
   };
 
   const TextField = ({ error, label, ...inputProps }) => (
@@ -75,7 +77,7 @@ export default function CadastroLanches({ navigation }) {
 
   return (
     <View style={styles.mainContainer}>
-      <NavBar navigation={navigation} nome="Cadastro"/>
+      <NavBar navigation={navigation} nome="Cadastro" />
       <View style={{ alignItems: "center", marginTop: 15 }}>
         <ScrollView style={{ padding: 15 }}>
           <Pressable style={styles.button_imagem} onPress={pickImage}>

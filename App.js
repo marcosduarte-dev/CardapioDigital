@@ -11,6 +11,7 @@ import { useAuthentication } from "./utils/hooks/useAuthentication";
 import Login from "./Components/Login";
 import { useState, useEffect } from "react";
 import { signOut, getAuth } from "firebase/auth";
+import GerenciarLanches from "./Components/GerenciarLanches";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -27,6 +28,7 @@ function CardapioStack() {
       <Stack.Screen name="Cardapio" component={ListagemLanches} />
       <Stack.Screen name="Carrinho" component={Carrinho} />
       <Stack.Screen name="CadastroLanches" component={CadastroLanches} />
+      <Stack.Screen name="GerenciarLanches" component={GerenciarLanches} />
       <Stack.Screen name="Login" component={Login} />
     </Stack.Navigator>
   );
@@ -86,12 +88,17 @@ export default function App() {
         ) : null}
 
         {isUserLoggedIn ? (
+          <Drawer.Screen
+            name="Gerenciar Lanches"
+            component={GerenciarLanches}
+            options={{ title: "Gerenciar Lanches" }}
+          />
+        ) : null}
+
+        {isUserLoggedIn ? (
           <Drawer.Screen name="Logout">
             {(props) => (
-              <Logout
-                {...props}
-                updateUserLoggedIn={updateUserLoggedIn}
-              />
+              <Logout {...props} updateUserLoggedIn={updateUserLoggedIn} />
             )}
           </Drawer.Screen>
         ) : (
